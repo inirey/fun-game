@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QUIZ MASTER</title>
+    <title>QUIZ MASTER - Kumpulin Poin Jadi Uang</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -17,15 +17,13 @@
             }
         }
     </script>
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .text-gradient { background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-            .glass { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
-            .btn-hover { transition: all 0.3s; }
-            .btn-hover:hover { transform: translateY(-3px); }
-            .correct { background: linear-gradient(135deg, #10b981, #059669) !important; }
-            .incorrect { background: linear-gradient(135deg, #ef4444, #dc2626) !important; }
-        }
+    <style>
+        .text-gradient { background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+        .btn-hover { transition: all 0.3s; }
+        .btn-hover:hover { transform: translateY(-3px); }
+        .correct { background: linear-gradient(135deg, #10b981, #059669) !important; color: white !important; }
+        .incorrect { background: linear-gradient(135deg, #ef4444, #dc2626) !important; color: white !important; }
     </style>
 </head>
 <body class="bg-gradient-to-br from-primary via-secondary to-accent min-h-screen font-poppins text-white">
@@ -37,18 +35,19 @@
             <span class="bg-gradient-to-r from-neon to-blue-500 text-gradient">QUIZ</span> 
             <span class="bg-gradient-to-r from-gold to-amber-500 text-gradient">MASTER</span>
         </h1>
-        <p class="text-gray-300">Tebak-tebakan Sulit - Menang Saldo E-Wallet</p>
+        <p class="text-gray-300">Jawab Banyak Soal, Dapat Poin Banyak, Cair Jadi Uang!</p>
     </header>
 
     <div class="glass rounded-2xl p-4 mb-8 border border-gold/30 text-center">
-        <h3 class="font-bold text-xl text-gold">🏆 HADIAH UANG TUNAI 🏆</h3>
-        <p>Masuk <strong>TOP 10</strong> dan menangkan saldo DANA, GoPay, OVO!</p>
+        <h3 class="font-bold text-xl text-gold">💰 ATURAN MAIN 💰</h3>
+        <p>✅ Jawaban Benar = <strong class="text-neon">+3 POIN</strong></p>
+        <p>💵 Minimal Cair = <strong class="text-neon">100.000 POIN</strong></p>
     </div>
 
     <main class="glass rounded-3xl p-6 shadow-2xl">
         <div class="flex justify-between mb-6">
-            <div class="text-center"><span class="text-xs block">Skor</span><h2 id="score" class="text-2xl font-bold text-neon">0</h2></div>
-            <div class="text-center"><span class="text-xs block">Soal</span><h2 id="count" class="text-2xl font-bold">1/15</h2></div>
+            <div class="text-center"><span class="text-xs block">Poin</span><h2 id="score" class="text-2xl font-bold text-neon">0</h2></div>
+            <div class="text-center"><span class="text-xs block">Soal</span><h2 id="count" class="text-2xl font-bold">1/50</h2></div>
             <div class="text-center"><span class="text-xs block">Waktu</span><h2 id="timer" class="text-2xl font-bold text-gold">30</h2></div>
         </div>
 
@@ -72,7 +71,7 @@
         <div id="end" class="hidden text-center">
             <i class="fas fa-flag-checkered text-7xl text-gold mb-4"></i>
             <h2 class="text-4xl font-bold mb-2">SELESAI!</h2>
-            <p>Skor kamu:</p>
+            <p>Total Poin Kamu:</p>
             <h3 id="finalScore" class="text-6xl font-black text-neon my-4">0</h3>
             
             <div class="my-6">
@@ -82,10 +81,15 @@
             </div>
 
             <div id="claimBox" class="hidden bg-white/10 rounded-xl p-6 mb-6 border border-neon/30">
-                <h4 class="text-xl font-bold text-gold mb-3">🎉 SELAMAT! MASUK TOP 10</h4>
+                <h4 class="text-xl font-bold text-green-400 mb-3">🎉 POIN CUKUP! SIAP CAIR</h4>
                 <a href="https://wa.me/6281234567890" target="_blank" class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-full text-lg btn-hover">
                     <i class="fab fa-whatsapp"></i> CHAT CEO SEKARANG
                 </a>
+            </div>
+
+            <div id="notEnoughBox" class="bg-white/10 rounded-xl p-6 mb-6 border border-red-500/30">
+                <h4 class="text-xl font-bold text-red-400 mb-3">⚠️ POIN BELUM CUKUP</h4>
+                <p>Butuh <strong class="text-neon">100.000 POIN</strong> untuk chat CEO.</p>
             </div>
 
             <button id="restartBtn" class="bg-gradient-to-r from-red-500 to-pink-500 text-white font-bold py-4 px-12 rounded-full text-xl btn-hover">
@@ -97,31 +101,46 @@
     <section class="mt-10 glass rounded-2xl p-6">
         <h3 class="text-2xl font-bold mb-4 text-center"><i class="fas fa-list-ol text-gold mr-2"></i> LEADERBOARD</h3>
         <div id="leaderboard" class="space-y-2 max-h-[400px] overflow-y-auto">
-            <p class="text-center text-gray-400">Belum ada data...</p>
+            <p class="text-center text-gray-400">Memuat data...</p>
         </div>
     </section>
 
     <footer class="text-center mt-8">
-        <p class="text-sm text-gray-400">Pembayaran via DANA | GoPay | OVO | LinkAja</p>
-        <p class="text-xs mt-4">© 2026 Made With By Reyy ♥️</p>
+        <p class="text-sm text-gray-400">Cair ke DANA | GoPay | OVO | Bank</p>
+        <p class="text-xs mt-4">© 2026 Made With By Reyyy</p>
     </footer>
 </div>
-
 <script>
-// --- DATA & LOGIC ---
 const questions = [
     {q:"Apa simbol kimia untuk Emas?",a:[{t:"Ag",c:false},{t:"Au",c:true},{t:"Fe",c:false},{t:"Pb",c:false}]},
     {q:"Berapa jantung cumi-cumi?",a:[{t:"1",c:false},{t:"2",c:false},{t:"3",c:true},{t:"4",c:false}]},
     {q:"Negara tanpa sungai?",a:[{t:"Mesir",c:false},{t:"Arab Saudi",c:true},{t:"UAE",c:false},{t:"Qatar",c:false}]},
     {q:"Ibu kota Jepang?",a:[{t:"Seoul",c:false},{t:"Beijing",c:false},{t:"Tokyo",c:true},{t:"Bangkok",c:false}]},
-    {q:"Penemu Lampu Pijar?",a:[{t:"Nikola Tesla",c:false},{t:"Thomas Alva Edison",c:true},{t:"Alexander Bell",c:false},{t:"Albert Einstein",c:false}]},
+    {q:"Penemu Lampu Pijar?",a:[{t:"Tesla",c:false},{t:"Edison",c:true},{t:"Bell",c:false},{t:"Einstein",c:false}]},
     {q:"Planet Merah adalah?",a:[{t:"Venus",c:false},{t:"Mars",c:true},{t:"Jupiter",c:false},{t:"Saturnus",c:false}]},
     {q:"Gas terbanyak di atmosfer?",a:[{t:"Oksigen",c:false},{t:"Nitrogen",c:true},{t:"CO2",c:false},{t:"Hidrogen",c:false}]},
     {q:"Tahun kemerdekaan RI?",a:[{t:"1942",c:false},{t:"1945",c:true},{t:"1950",c:false},{t:"1965",c:false}]},
-    {q:"Hewan yang tidur berdiri?",a:[{t:"Sapi",c:false},{t:"Kuda",c:true},{t:"Gajah",c:false},{t:"Singa",c:false}]},
-    {q:"Berapa menit cahaya matahari ke Bumi?",a:[{t:"4 menit",c:false},{t:"8 menit",c:true},{t:"15 menit",c:false},{t:"1 jam",c:false}]}
+    {q:"Hewan tidur berdiri?",a:[{t:"Sapi",c:false},{t:"Kuda",c:true},{t:"Gajah",c:false},{t:"Singa",c:false}]},
+    {q:"Cahaya matahari ke Bumi?",a:[{t:"4mnt",c:false},{t:"8mnt",c:true},{t:"15mnt",c:false},{t:"1jam",c:false}]},
+    {q:"Ibu kota Jawa Barat?",a:[{t:"Bandung",c:true},{t:"Bogor",c:false},{t:"Cirebon",c:false},{t:"Bekasi",c:false}]},
+    {q:"Hewan terbesar di dunia?",a:[{t:"Gajah",c:false},{t:"Paus Biru",c:true},{t:"Jerapah",c:false},{t:"Hiu",c:false}]},
+    {q:"Berapa hari satu tahun?",a:[{t:"365",c:true},{t:"360",c:false},{t:"300",c:false},{t:"366",c:false}]},
+    {q:"Ibu kota Inggris?",a:[{t:"Manchester",c:false},{t:"London",c:true},{t:"Liverpool",c:false},{t:"Paris",c:false}]},
+    {q:"Alat napas ikan?",a:[{t:"Paru-paru",c:false},{t:"Insang",c:true},{t:"Kulit",c:false},{t:"Hidung",c:false}]},
+    {q:"Huruf ke-5 abjad?",a:[{t:"C",c:false},{t:"D",c:false},{t:"E",c:true},{t:"F",c:false}]},
+    {q:"Lambang negara RI?",a:[{t:"Harimau",c:false},{t:"Elang Jawa",c:true},{t:"Burung Hantu",c:false},{t:"Gajah",c:false}]},
+    {q:"Planet terdekat matahari?",a:[{t:"Venus",c:false},{t:"Merkurius",c:true},{t:"Bumi",c:false},{t:"Mars",c:false}]},
+    {q:"Air mendidih suhu?",a:[{t:"90°C",c:false},{t:"100°C",c:true},{t:"110°C",c:false},{t:"50°C",c:false}]},
+    {q:"Bunga nasional Indonesia?",a:[{t:"Mawar",c:false},{t:"Melati",c:true},{t:"Anggrek",c:false},{t:"Matahari",c:false}]},
+    {q:"Satu minggu berapa hari?",a:[{t:"5",c:false},{t:"6",c:false},{t:"7",c:true},{t:"8",c:false}]},
+    {q:"Berapa kaki laba-laba?",a:[{t:"6",c:false},{t:"8",c:true},{t:"4",c:false},{t:"10",c:false}]},
+    {q:"Warna pelangi?",a:[{t:"5",c:false},{t:"6",c:false},{t:"7",c:true},{t:"8",c:false}]},
+    {q:"Simbol kimia Air?",a:[{t:"HO",c:false},{t:"H2O",c:true},{t:"O2",c:false},{t:"CO2",c:false}]},
+    {q:"Gunung tertinggi dunia?",a:[{t:"Kilimanjaro",c:false},{t:"Everest",c:true},{t:"Jayawijaya",c:false},{t:"Kinabalu",c:false}]}
 ];
 
+const MIN_POIN = 100000;
+const POIN_BENAR = 3;
 let score = 0, current = 0, timeLeft = 30, timer;
 const el = id => document.getElementById(id);
 
@@ -132,7 +151,7 @@ el('saveBtn').addEventListener('click', saveScore);
 
 function startGame() {
     score = 0; current = 0;
-    el('score').textContent = 0;
+    el('score').textContent = score;
     el('game').classList.remove('hidden');
     el('end').classList.add('hidden');
     el('startWrap').classList.add('hidden');
@@ -146,10 +165,17 @@ function showQuestion() {
     el('count').textContent = `${current+1}/${questions.length}`;
     const ansBox = el('answers');
     ansBox.innerHTML = '';
-    q.a.forEach((ans, i) => {
+    
+    q.a.forEach((ans) => {
         const btn = document.createElement('button');
-        btn.className = 'bg-white/10 hover:bg-white/20 p-4 rounded-xl text-left font-semibold answer-btn';
-        btn.textContent = ans.text;
+        btn.style.background = 'rgba(255,255,255,0.1)';
+        btn.style.border = '1px solid rgba(255,255,255,0.2)';
+        btn.style.padding = '16px';
+        btn.style.borderRadius = '12px';
+        btn.style.fontWeight = '600';
+        btn.style.width = '100%';
+        btn.style.color = 'white';
+        btn.textContent = ans.t;
         btn.onclick = () => checkAnswer(btn, ans.correct);
         ansBox.appendChild(btn);
     });
@@ -158,10 +184,14 @@ function showQuestion() {
 
 function checkAnswer(btn, isCorrect) {
     clearInterval(timer);
-    if(isCorrect) { score += 10; btn.classList.add('correct'); } 
-    else { btn.classList.add('incorrect'); }
+    if(isCorrect) { 
+        score += POIN_BENAR;
+        btn.classList.add('correct'); 
+    } else { 
+        btn.classList.add('incorrect'); 
+    }
     el('score').textContent = score;
-    document.querySelectorAll('.answer-btn').forEach(b => b.disabled = true);
+    document.querySelectorAll('#answers button').forEach(b => b.disabled = true);
     setTimeout(() => el('nextWrap').classList.remove('hidden'), 500);
 }
 
@@ -178,8 +208,8 @@ function resetTimer() {
     timer = setInterval(() => {
         timeLeft--;
         el('timer').textContent = timeLeft;
-        if(timeLeft <= 0) { clearInterval(timer); nextQuestion(); }
-    }, 1000);
+        if(timeLeft <= 0) { clearInterval(timer); nextQuestion
+}, 1000);
 }
 
 function endGame() {
@@ -187,11 +217,17 @@ function endGame() {
     el('game').classList.add('hidden');
     el('end').classList.remove('hidden');
     el('finalScore').textContent = score;
-    checkRank(score);
+    
+    if(score >= MIN_POIN) {
+        el('claimBox').classList.remove('hidden');
+        el('notEnoughBox').classList.add('hidden');
+    } else {
+        el('claimBox').classList.add('hidden');
+        el('notEnoughBox').classList.remove('hidden');
+    }
     loadLeaderboard();
 }
 
-// --- LEADERBOARD ---
 function saveScore() {
     const name = el('userName').value || 'Anonim';
     let data = JSON.parse(localStorage.getItem('quizScores') || '[]');
@@ -199,26 +235,20 @@ function saveScore() {
     data.sort((a,b) => b.score - a.score);
     localStorage.setItem('quizScores', JSON.stringify(data));
     loadLeaderboard();
-    alert('Skor berhasil disimpan!');
+    alert('Skor & Poin berhasil disimpan!');
 }
 
 function loadLeaderboard() {
     let data = JSON.parse(localStorage.getItem('quizScores') || '[]');
     const lb = el('leaderboard');
-    if(data.length === 0) return lb.innerHTML = '<p class="text-center text-gray-400">Belum ada pemain</p>';
+    if(data.length === 0) return lb.innerHTML = '<p class="text-center text-gray-400">Belum ada data</p>';
     lb.innerHTML = data.slice(0,20).map((item, i) => `
         <div class="flex items-center bg-white/5 p-3 rounded-lg">
-            <span class="text-xl font-bold w-8 ${i<3?'text-gold':'text-gray-400'}">${i+1}</span>
+            <span class="text-xl font-bold w-8 ${i<3?'text-yellow-400':'text-gray-400'}">${i+1}</span>
             <span class="flex-1 font-semibold">${item.name}</span>
             <span class="text-neon font-bold">${item.score} Pts</span>
         </div>
     `).join('');
-}
-
-function checkRank(myScore) {
-    let data = JSON.parse(localStorage.getItem('quizScores') || '[]');
-    let rank = data.findIndex(d => d.score < myScore) + 1;
-    if(rank <= 10 || myScore >= 90) el('claimBox').classList.remove('hidden');
 }
 
 loadLeaderboard();
